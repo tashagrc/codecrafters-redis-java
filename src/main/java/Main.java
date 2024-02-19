@@ -1,38 +1,28 @@
 import java.io.IOException;
-import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Main {
+
+  // bikin 5 thread
+  private static final ExecutorService executorService = Executors.newFixedThreadPool(5);
+
   public static void main(String[] args){
     // You can use print statements as follows for debugging, they'll be visible when running tests.
     System.out.println("Logs from your program will appear here!");
-
-    //  Uncomment this block to pass the first stage
        ServerSocket serverSocket;
        Socket clientSocket = null;
-       String serverResponse = "+PONG\r\n";
-       String clientMessage;
        int port = 6379;
        try {
-         serverSocket = new ServerSocket(port);
-         serverSocket.setReuseAddress(true);
-         // Wait for connection from client.
-         clientSocket = serverSocket.accept();
-
-         // baca tulis input output dr socket
-         BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-         PrintWriter outWriter = new PrintWriter(clientSocket.getOutputStream(), true);
-
-         // bisa terima ping berkali2
-         // untuk setiap line yg disend client, server respon pong
-         while((clientMessage = input.readLine()) != null) {
-          System.out.println("Command received: " + clientMessage);
-          if(clientMessage.equalsIgnoreCase("ping")) {
-            outWriter.print(serverResponse);
-            outWriter.flush();
+          serverSocket = new ServerSocket(port);
+          serverSocket.setReuseAddress(true);
+          // setiap command dimasukin ke thread utk dihandle oleh ClientHandler
+          while(true) {
+            clientSocket = serverSocket.accept();
+            executorService.submit(new ClientHandler(clientSocket));
           }
-         }
        } catch (IOException e) {
          System.out.println("IOException: " + e.getMessage());
        } finally {
