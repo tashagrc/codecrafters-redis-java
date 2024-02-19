@@ -24,6 +24,7 @@ public class Main {
          BufferedReader input = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
          PrintWriter outWriter = new PrintWriter(clientSocket.getOutputStream(), true);
 
+         // bisa terima ping berkali2
          // untuk setiap line yg disend client, server respon pong
          while((clientMessage = input.readLine()) != null) {
           System.out.println("Command received: " + clientMessage);
