@@ -34,7 +34,7 @@ public class ClientHandler implements Runnable {
                                 sendResponse(new Ping().execute(""));
                                 break;
                             case Constants.ECHO:
-                                sendResponse(new Echo().execulte(commands.get(3)));
+                                sendResponse(new Echo().execute(commands.get(3)));
                                 break;
                             default:
                                 sendResponse("invalid commands");
