@@ -21,7 +21,8 @@ public class Main {
           // setiap command dimasukin ke thread utk dihandle oleh ClientHandler
           while(true) {
             clientSocket = serverSocket.accept();
-            executorService.submit(new ClientHandler(clientSocket));
+            Thread newThread = new Thread(new ClientHandler(clientSocket));
+            newThread.start();
           }
        } catch (IOException e) {
          System.out.println("IOException: " + e.getMessage());
