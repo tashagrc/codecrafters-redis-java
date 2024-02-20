@@ -51,7 +51,6 @@ public class ClientHandler implements Runnable {
     private void sendResponse(String response) {
         try {
             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-            out.print("+PONG\r\n");
             out.print(response);
             out.flush();
         }
