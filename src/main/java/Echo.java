@@ -1,10 +1,13 @@
+import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
 public class Echo implements Command {
 
     @Override
-    public String execute(String input) {
-        // TODO Auto-generated method stub
-        System.out.println("Echo: " + input);
-        return "+"+input+"\r\n";
+    public String execute(List<String> input, ConcurrentHashMap<String, String> cache) {
+        return "+" + input.get(3) + "\r\n";
     }
+
+    
     
 }
